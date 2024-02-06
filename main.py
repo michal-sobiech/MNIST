@@ -20,5 +20,6 @@ def main():
         test_labels_path=path.join(DATASET_PATH, TEST_LABELS_FN)
     )
 
+
 if __name__ == '__main__':
     main()

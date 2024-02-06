@@ -1,7 +1,7 @@
 from typing import Final
 from io import TextIOWrapper
 import numpy as np
-from numpy.typing import NDArray
+from numpy.typing import NPArray
 
 
 class DatasetReader:
@@ -20,7 +20,7 @@ class DatasetReader:
         self.TEST_IMAGES_PATH = test_images_path
         self.TEST_LABELS_PATH = test_labels_path
 
-    def get_training_data(self) -> list[dict[int, list[list[int]]]]:
+    def get_training_data(self) -> list[dict[int, NPArray]]:
         labels = self.__get_training_labels()
         images = self.__get_training_images_monochrome()
 
@@ -32,7 +32,7 @@ class DatasetReader:
             })
         return data
 
-    def __get_images(self, image_file_path: str) -> NDArray:
+    def __get_images(self, image_file_path: str) -> NPArray:
         with open(image_file_path, 'r') as handle:
             _ = self.__read_4_bytes(handle)
             image_count = self.__read_4_bytes(handle)
@@ -45,17 +45,17 @@ class DatasetReader:
                                 (image_count, row_count, column_count))
             return images
 
-    def __get_images_monochrome(self, image_file_path: str) -> NDArray:
+    def __get_images_monochrome(self, image_file_path: str) -> NPArray:
         images = self.__get_images(image_file_path)
         return np.where(images > 127, 1, 0)
 
-    def __get_training_images_monochrome(self) -> NDArray:
+    def __get_training_images_monochrome(self) -> NPArray:
         return self.__get_images_monochrome(self.TRAINING_IMAGES_PATH)
 
-    def __get_test_images_monochrome(self) -> NDArray:
+    def __get_test_images_monochrome(self) -> NPArray:
         return self.__get_images_monochrome(self.TEST_IMAGES_PATH)
 
-    def __get_labels(self, label_file_path: str) -> NDArray:
+    def __get_labels(self, label_file_path: str) -> NPArray:
         with open(label_file_path, 'r') as handle:
             _ = self.__read_4_bytes(handle)
             _ = self.__read_4_bytes(handle)
@@ -64,10 +64,10 @@ class DatasetReader:
             label_array = np.frombuffer(label_data_buffer, dtype=np.uint8)
             return label_array
 
-    def __get_training_labels(self) -> NDArray:
+    def __get_training_labels(self) -> NPArray:
         return self.__get_labels(self.TRAINING_LABELS_PATH)
 
-    def __get_test_labels(self) -> NDArray:
+    def __get_test_labels(self) -> NPArray:
         return self.__get_labels(self.TRAINING_LABELS_PATH)
 
     def __read_4_bytes(self, handle: TextIOWrapper) -> int:
