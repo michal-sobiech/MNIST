@@ -2,6 +2,7 @@ from typing import Final, Dict, List
 from io import TextIOWrapper
 import numpy as np
 from numpy.typing import NDArray
+import sys
 
 
 class DatasetReader:
@@ -74,6 +75,7 @@ class DatasetReader:
         return int.from_bytes(handle.read(4), 'big')
 
     def test(self):
+        np.set_printoptions(linewidth=sys.maxsize)
         data: List[Dict[int, NDArray]] = self.get_training_data()
         for i in range(5):
             sample = data[np.random.randint(0, 10_000)]
