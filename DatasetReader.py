@@ -81,7 +81,6 @@ class DatasetReader:
             sample = data[np.random.randint(0, 10_000)]
             print(f'Number shown: {sample["label"]}')
             print()
-            print(np.where(sample['image'] == 1, '#', '.'))
-            # print(sample['image'])
+            print(np.where(sample['image'] == 1, '█', ' '))
             print()
             print("===================")
