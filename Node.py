@@ -1,4 +1,5 @@
 from Connection import Connection
+import numpy as np
 
 
 class Node:
@@ -6,9 +7,11 @@ class Node:
     prev_conns: list[Connection] = []
     next_conns: list[Connection] = []
 
-    def __init__(self, bias: float,
-                 prev_conns: list[Connection],
-                 next_conns: list[Connection]) -> None:
-        self.bias = bias
-        self.prev_conns = prev_conns
-        self.next_conns = next_conns
+    def __init__(self) -> None:
+        self.bias = np.random.uniform(-0.01, 0.01)
+
+    def add_prev_conn(self, conn: Connection) -> None:
+        self.prev_conns.append(conn)
+
+    def add_next_conn(self, conn: Connection) -> None:
+        self.next_conns.append(conn)
