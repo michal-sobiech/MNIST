@@ -1,13 +1,13 @@
 from configparser import ConfigParser
 from DatasetReader import DatasetReader
-from typing import Final
 from os import path
+from FeedforwardNN import FeedforwardNN
 
 
 def main():
     WORK_DIR = path.abspath(path.dirname(__file__))
     CONFIG_FN = 'config.ini'
-    ABS_CFG_PATH  = path.join(WORK_DIR, CONFIG_FN)
+    ABS_CFG_PATH = path.join(WORK_DIR, CONFIG_FN)
 
     # Load the config
     config = ConfigParser()
@@ -19,7 +19,7 @@ def main():
     TRAINING_LABELS_FN = settings['training_labels_fn']
     TEST_IMAGES_FN = settings['test_images_fn']
     TEST_LABELS_FN = settings['test_labels_fn']
-    BATCH_SIZE = settings['batch_size']
+    # BATCH_SIZE = settings['batch_size']
 
     # Dataset
     datasetReader = DatasetReader(
@@ -29,11 +29,10 @@ def main():
         test_labels_path=path.join(DATASET_PATH, TEST_LABELS_FN)
     )
 
+    network = FeedforwardNN((28 * 28, 50, 100, 1), 10)
+
     # training_data = datasetReader.get_training_data()
     # datasetReader.test()
-
-
-
 
 if __name__ == '__main__':
     main()
