@@ -5,20 +5,21 @@ from os import path
 
 
 def main():
-    WORK_DIR: Final[str] = path.abspath(path.dirname(__file__))
-    CONFIG_FN: Final[str] = 'config.ini'
-    ABS_CFG_PATH: Final[str] = path.join(WORK_DIR, CONFIG_FN)
+    WORK_DIR = path.abspath(path.dirname(__file__))
+    CONFIG_FN = 'config.ini'
+    ABS_CFG_PATH  = path.join(WORK_DIR, CONFIG_FN)
 
     # Load the config
     config = ConfigParser()
     config.read(ABS_CFG_PATH)
     settings = config['Settings']
 
-    DATASET_PATH: Final[str] = path.join(WORK_DIR, settings['dataset_path'])
-    TRAINING_IMAGES_FN: Final[str] = settings['training_images_fn']
-    TRAINING_LABELS_FN: Final[str] = settings['training_labels_fn']
-    TEST_IMAGES_FN: Final[str] = settings['test_images_fn']
-    TEST_LABELS_FN: Final[str] = settings['test_labels_fn']
+    DATASET_PATH = path.join(WORK_DIR, settings['dataset_path'])
+    TRAINING_IMAGES_FN = settings['training_images_fn']
+    TRAINING_LABELS_FN = settings['training_labels_fn']
+    TEST_IMAGES_FN = settings['test_images_fn']
+    TEST_LABELS_FN = settings['test_labels_fn']
+    BATCH_SIZE = settings['batch_size']
 
     # Dataset
     datasetReader = DatasetReader(
@@ -29,7 +30,9 @@ def main():
     )
 
     # training_data = datasetReader.get_training_data()
-    datasetReader.test()
+    # datasetReader.test()
+
+
 
 
 if __name__ == '__main__':
