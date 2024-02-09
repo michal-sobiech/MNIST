@@ -1,5 +1,5 @@
 from typing import Dict, List
-from Layer import Layer
+from LayerABC import Layer
 
 
 class FeedforwardNN:
