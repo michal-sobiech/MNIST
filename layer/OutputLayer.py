@@ -1,4 +1,5 @@
 from typing import List
+from numpy import exp
 from LayerABC import LayerABC
 
 
@@ -9,6 +10,5 @@ class OutputLayer(LayerABC):
         super().__init__(node_count)
 
     def _softmax(self, values: List[float]):
-        lowest = min(values)
-        highest = max(values)
-        
+        denominator = sum(map(lambda v: exp(v), values))
+        return [exp(v) / denominator for v in values]
