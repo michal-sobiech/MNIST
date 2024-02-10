@@ -22,8 +22,8 @@ class DatasetReader:
         self.TEST_LABELS_PATH = test_labels_path
 
     def get_training_data(self) -> list[dict[int, NDArray]]:
-        labels = self.__get_training_labels()
-        images = self.__get_training_images_monochrome()
+        labels = self._get_training_labels()
+        images = self._get_training_images_monochrome()
 
         data = []
         for label, image in zip(labels, images):
@@ -33,12 +33,12 @@ class DatasetReader:
             })
         return data
 
-    def __get_images(self, image_file_path: str) -> NDArray:
+    def _get_images(self, image_file_path: str) -> NDArray:
         with open(image_file_path, 'rb') as handle:
-            _ = self.__read_4_bytes(handle)
-            image_count = self.__read_4_bytes(handle)
-            row_count = self.__read_4_bytes(handle)
-            column_count = self.__read_4_bytes(handle)
+            _ = self._read_4_bytes(handle)
+            image_count = self._read_4_bytes(handle)
+            row_count = self._read_4_bytes(handle)
+            column_count = self._read_4_bytes(handle)
             pixel_data_buffer = handle.read()
 
             pixel_data_array = np.frombuffer(pixel_data_buffer, dtype=np.uint8)
@@ -46,32 +46,32 @@ class DatasetReader:
                                 (image_count, row_count, column_count))
             return images
 
-    def __get_images_monochrome(self, image_file_path: str) -> NDArray:
-        images = self.__get_images(image_file_path)
+    def _get_images_monochrome(self, image_file_path: str) -> NDArray:
+        images = self._get_images(image_file_path)
         return np.where(images > 127, 1, 0)
 
-    def __get_training_images_monochrome(self) -> NDArray:
-        return self.__get_images_monochrome(self.TRAINING_IMAGES_PATH)
+    def _get_training_images_monochrome(self) -> NDArray:
+        return self._get_images_monochrome(self.TRAINING_IMAGES_PATH)
 
-    def __get_test_images_monochrome(self) -> NDArray:
-        return self.__get_images_monochrome(self.TEST_IMAGES_PATH)
+    def _get_test_images_monochrome(self) -> NDArray:
+        return self._get_images_monochrome(self.TEST_IMAGES_PATH)
 
-    def __get_labels(self, label_file_path: str) -> NDArray:
+    def _get_labels(self, label_file_path: str) -> NDArray:
         with open(label_file_path, 'rb') as handle:
-            _ = self.__read_4_bytes(handle)
-            _ = self.__read_4_bytes(handle)
+            _ = self._read_4_bytes(handle)
+            _ = self._read_4_bytes(handle)
             label_data_buffer = handle.read()
 
             label_array = np.frombuffer(label_data_buffer, dtype=np.uint8)
             return label_array
 
-    def __get_training_labels(self) -> NDArray:
-        return self.__get_labels(self.TRAINING_LABELS_PATH)
+    def _get_training_labels(self) -> NDArray:
+        return self._get_labels(self.TRAINING_LABELS_PATH)
 
-    def __get_test_labels(self) -> NDArray:
-        return self.__get_labels(self.TRAINING_LABELS_PATH)
+    def _get_test_labels(self) -> NDArray:
+        return self._get_labels(self.TRAINING_LABELS_PATH)
 
-    def __read_4_bytes(self, handle: TextIOWrapper) -> int:
+    def _read_4_bytes(self, handle: TextIOWrapper) -> int:
         return int.from_bytes(handle.read(4), 'big')
 
     def test(self):
