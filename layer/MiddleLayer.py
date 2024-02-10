@@ -1,14 +1,11 @@
-from layer.NonfirstLayerABC import NonfirstLayerABC
 from layer.LayerABC import LayerABC
 from node.MiddleNode import MiddleNode
 
 
-class MiddleLayer(NonfirstLayerABC):
-    prev_layer: LayerABC = None
-    next_layer: LayerABC = None
-
+class MiddleLayer(LayerABC):
     def __init__(self, node_count: int, prev_layer: LayerABC) -> None:
-        self.prev_layer = prev_layer
+        self.prev_layer: LayerABC = prev_layer
+        self.next_layer: LayerABC = None
         super().__init__(node_count)
 
     def activate(self) -> None:

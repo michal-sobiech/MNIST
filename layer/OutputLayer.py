@@ -5,9 +5,8 @@ from node.OutputNode import OutputNode
 
 
 class OutputLayer(LayerABC):
-    prev_layer: LayerABC
-
-    def __init__(self, node_count: int) -> None:
+    def __init__(self, node_count: int, prev_layer: LayerABC) -> None:
+        self.prev_layer: LayerABC = prev_layer
         super().__init__(node_count)
 
     def activate(self) -> None:

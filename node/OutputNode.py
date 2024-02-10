@@ -5,9 +5,8 @@ from Connection import Connection
 
 
 class OutputNode(NodeABC):
-    prev_layer: LayerABC = None
-
     def __init__(self) -> None:
+        self.prev_layer: LayerABC = None
         super().__init__()
 
     def generate_prev_conns(self, prev_layer_nodes: List[NodeABC]) -> None:

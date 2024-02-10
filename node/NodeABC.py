@@ -5,12 +5,11 @@ from Connection import Connection
 
 
 class NodeABC(ABC):
-    value: int = None
-    bias: float = None
-    prev_conns: list[Connection] = []
-    next_conns: list[Connection] = []
-
     def __init__(self) -> None:
+        self.value: int = None
+        self.bias: float = None
+        self.prev_conns: list[Connection] = []
+        self.next_conns: list[Connection] = []
         self.bias = np.random.uniform(-0.01, 0.01)
 
     def add_next_conn(self, conn: Connection) -> None:

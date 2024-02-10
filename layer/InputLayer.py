@@ -4,9 +4,8 @@ from node.InputNode import InputNode
 
 
 class InputLayer(LayerABC):
-    next_layer: LayerABC = None
-
     def __init__(self, node_count: int) -> None:
+        self.next_layer: LayerABC = None
         super().__init__(node_count)
 
     def activate(self, input_values: List[float]) -> None:
