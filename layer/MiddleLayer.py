@@ -11,6 +11,11 @@ class MiddleLayer(NonfirstLayerABC):
         self.prev_layer = prev_layer
         super().__init__(node_count)
 
+    def activate(self) -> None:
+        for node in self.nodes:
+            node.activate()
+        self.next_layer.activate()
+
     def _generate_node(self) -> None:
         node = MiddleNode()
         self.nodes.append(node)

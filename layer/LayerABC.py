@@ -1,6 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from node.NodeABC import NodeABC
+from typing import Type
 
 
 class LayerABC(ABC):
