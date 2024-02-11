@@ -7,6 +7,9 @@ class MiddleNode(NodeABC):
     def __init__(self) -> None:
         super().__init__()
 
+    def add_next_conn(self, conn: Connection) -> None:
+        self.next_conns.append(conn)
+
     def add_prev_conn(self, conn: Connection) -> None:
         self.prev_conns.append(conn)
 

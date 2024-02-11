@@ -9,6 +9,9 @@ class OutputNode(NodeABC):
         self.prev_layer: LayerABC = None
         super().__init__()
 
+    def add_prev_conn(self, conn: Connection) -> None:
+        self.prev_conns.append(conn)
+
     def generate_prev_conns(self, prev_layer_nodes: List[NodeABC]) -> None:
         """
         Connects the node to the nodes from the previous layer.

@@ -29,8 +29,8 @@ def main():
         test_labels_path=path.join(DATASET_PATH, TEST_LABELS_FN)
     )
 
-    # network = FeedforwardNN((28 * 28, 50, 100, 1), 10)
-    network = FeedforwardNN((3, 5, 1), 10)
+    network = FeedforwardNN((28 * 28, 50, 100, 10), 10)
+    # network = FeedforwardNN((3, 5, 1), 10)
 
     # training_data = datasetReader.get_training_data()
     datasetReader.test()

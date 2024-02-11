@@ -2,6 +2,7 @@ from typing import Dict, List
 from layer.LayerABC import LayerABC
 from layer.InputLayer import InputLayer
 from layer.MiddleLayer import MiddleLayer
+from layer.OutputLayer import OutputLayer
 
 
 class FeedforwardNN:
@@ -19,7 +20,11 @@ class FeedforwardNN:
         if self._is_layer_first(index):
             layer = InputLayer(node_count)
         else:
-            layer = MiddleLayer(node_count, self.layers[index - 1])
+            prev_layer = self.layers[index - 1]
+            if self._is_layer_last(index):
+                layer = OutputLayer(node_count, prev_layer)
+            else:
+                layer = MiddleLayer(node_count, prev_layer)
             layer.prev_layer.next_layer = layer
         self.layers.append(layer)
 
@@ -34,7 +39,7 @@ class FeedforwardNN:
         pass
 
     def single_sample_error(self, sample: Dict) -> List[float]:
-        pass
+        
 
     def _is_layer_last(self, layer_index: int) -> bool:
         return layer_index == self.layer_count - 1
@@ -47,3 +52,5 @@ class FeedforwardNN:
 
     def _get_the_last_layer(self) -> LayerABC:
         return self.layers[-1]
+
+    def backpropagate(self, grad)
