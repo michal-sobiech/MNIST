@@ -9,9 +9,9 @@ class LayerABC(ABC):
         self.nodes: List[NodeABC] = []
         self._generate_nodes(node_count)
 
-    def _generate_nodes(self, node_count: int) -> None:
-        for _ in range(node_count):
-            self._generate_node()
+    @abstractmethod
+    def _generate_nodes(self) -> None:
+        pass
 
     @abstractmethod
     def _generate_node(self) -> None:
