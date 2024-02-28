@@ -76,7 +76,7 @@ class OtherLayer(LayerABC):
                            self_act_val_gradient: NDArray,
                            self_z_vals: NDArray) -> NDArray:
         """
-        Calculates dC / db for all weights in the layer
+        Calculates dC / db for all nodes in the layer
         """
         return (
             self_act_val_gradient
@@ -89,7 +89,7 @@ class OtherLayer(LayerABC):
                               next_layer_act_val_gradient: NDArray,
                               expected_output: NDArray) -> NDArray:
         """
-        Calculates dC / da for all weights in the layer
+        Calculates dC / da for all nodes in the layer
         """
         if self._is_last:
             return 2 * (self_act_vals - expected_output)
