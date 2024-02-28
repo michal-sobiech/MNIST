@@ -51,16 +51,16 @@ class OtherLayer(LayerABC):
     #                     next_layer_dC_over_da: NDArray,
     #                     expected_output: NDArray) -> Gradients:
     #     return Gradients(
-    #         weight_gradient=self.calc_dC_over_dw(self_z_vals,
+    #         weight_gradient=self.calc_weight_gradient(self_z_vals,
     #                                              prev_layer_act_vals,
     #                                              self_dC_over_da),
     #         bias_gradient=self.cal
     #     )
 
-    def calc_dC_over_dw(self,
-                        self_z_vals: NDArray,
-                        prev_layer_act_vals: NDArray,
-                        self_dC_over_da: NDArray) -> NDArray:
+    def calc_weight_gradient(self,
+                             self_z_vals: NDArray,
+                             prev_layer_act_vals: NDArray,
+                             self_dC_over_da: NDArray) -> NDArray:
         """
         Calculates dC / dw for all weights in the layer
         """
@@ -72,19 +72,19 @@ class OtherLayer(LayerABC):
             * np.diag(prev_layer_act_vals)
         )
 
-    def calc_dC_over_db(self,
-                        self_dC_over_da: NDArray,
-                        self_z_vals: NDArray) -> NDArray:
+    def calc_bias_gradient(self,
+                           self_dC_over_da: NDArray,
+                           self_z_vals: NDArray) -> NDArray:
         return (
             self_dC_over_da
             @ self.relu_deriv(self_z_vals)
         )
 
-    def calc_dC_over_da(self,
-                        self_act_vals: NDArray,
-                        next_layer_z_vals: NDArray,
-                        next_layer_dC_over_da: NDArray,
-                        expected_output: NDArray) -> NDArray:
+    def calc_act_val_gradient(self,
+                              self_act_vals: NDArray,
+                              next_layer_z_vals: NDArray,
+                              next_layer_dC_over_da: NDArray,
+                              expected_output: NDArray) -> NDArray:
         if self._is_last:
             return 2 * (self_act_vals - expected_output)
         else:
