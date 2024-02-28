@@ -60,7 +60,7 @@ class OtherLayer(LayerABC):
     def calc_weight_gradient(self,
                              self_z_vals: NDArray,
                              prev_layer_act_vals: NDArray,
-                             self_dC_over_da: NDArray) -> NDArray:
+                             self_act_val_gradient: NDArray) -> NDArray:
         """
         Calculates dC / dw for all weights in the layer
         """
@@ -68,7 +68,7 @@ class OtherLayer(LayerABC):
         k = len(prev_layer_act_vals)
         return (
             self.relu_deriv(np.diag(self_z_vals))
-            * (np.diag(self_dC_over_da) * np.ones((j, k)))
+            * (np.diag(self_act_val_gradient) * np.ones((j, k)))
             * np.diag(prev_layer_act_vals)
         )
 
