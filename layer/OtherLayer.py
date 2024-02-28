@@ -43,15 +43,21 @@ class OtherLayer(LayerABC):
     def relu_deriv(self, x: float) -> float:
         return 1 if x > 0 else 0
 
-    def calc_dC_over_dw(self, self_act_vals: NDArray,
-                        next_layer_act_vals: NDArray) -> NDArray:
+    def calc_dC_over_dw(self,
+                        self_z_vals: NDArray,
+                        prev_layer_node_count: int,
+                        prev_layer_act_vals: NDArray,
+                        self_dC_over_da: NDArray) -> NDArray:
         """
         Calculates dC / dw for all weights in the layer
         """
+        j = len(self._nodes)
+        k = prev_layer_node_count
+        # TODO check matrix sizes
         return (
-            self.calc_dC_over_da(next_layer_act_vals)
-            * self.relu_deriv()
-            * self_act_vals
+            self.relu_deriv(np.diag(self_z_vals))
+            * (np.diag(self_dC_over_da) * np.ones((j, k)))
+            * np.diag(prev_layer_act_vals)
         )
 
     def calc_dC_over_da(self, self_act_vals: NDArray,
