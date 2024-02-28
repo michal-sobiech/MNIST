@@ -1,7 +1,6 @@
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 from numpy.typing import NDArray
 import numpy as np
-from numpy import exp
 from layer.LayerABC import LayerABC
 from layer.InputLayer import InputLayer
 from layer.OtherLayer import OtherLayer
@@ -29,14 +28,25 @@ class FeedforwardNN:
             self._generate_layer(node_count, index == 0)
 
     def train_on_a_batch(self, samples: List[Sample]) -> None:
-        # weights = self.get_weights()
-        # biases = self.get_biases()
+        batch_gradient = self.get_gradient_avg_from_batch(samples)
+        self.backpropagate(batch_gradient)
+
+    def get_gradient_avg_from_batch(self, samples: List[Sample]) -> NDArray:
+        weights = self.get_weights()
+        biases = self.get_biases()
+
         gradient_sum = Gradients()
         for sample in samples:
             act_vals = self.single_sample_act_vals(sample.input_values)
             gradient_sum += self.calc_gradients(act_vals)
-        gradient_sum = gradient_sum / len(samples)
-        self.backpropagate(gradient_sum)
+        return gradient_sum / len(samples)
+    
+    def get_gradient_from_sample(self,
+                                 weights: NDArray,
+                                 biases: NDArray, 
+                                 sample: Sample) -> Gradients:
+        gradients = 
+
 
     def _softmax(self, values: NDArray):
         denominator = sum(np.exp(values))

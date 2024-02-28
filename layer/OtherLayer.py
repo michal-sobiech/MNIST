@@ -1,9 +1,8 @@
-from typing import List
-from numpy import exp
 import numpy as np
 from numpy.typing import NDArray
 from layer.LayerABC import LayerABC
 from node.OtherNode import OtherNode
+from Gradients import Gradients
 
 
 class OtherLayer(LayerABC):
@@ -43,6 +42,21 @@ class OtherLayer(LayerABC):
     def relu_deriv(self, x: float) -> float:
         return 1 if x > 0 else 0
 
+    # def calc_gradients(self,
+    #                     self_z_vals: NDArray,
+    #                     prev_layer_act_vals: NDArray,
+    #                     self_dC_over_da: NDArray,
+    #                     self_act_vals: NDArray,
+    #                     next_layer_z_vals: NDArray,
+    #                     next_layer_dC_over_da: NDArray,
+    #                     expected_output: NDArray) -> Gradients:
+    #     return Gradients(
+    #         weight_gradient=self.calc_dC_over_dw(self_z_vals,
+    #                                              prev_layer_act_vals,
+    #                                              self_dC_over_da),
+    #         bias_gradient=self.cal
+    #     )
+
     def calc_dC_over_dw(self,
                         self_z_vals: NDArray,
                         prev_layer_act_vals: NDArray,
@@ -56,6 +70,14 @@ class OtherLayer(LayerABC):
             self.relu_deriv(np.diag(self_z_vals))
             * (np.diag(self_dC_over_da) * np.ones((j, k)))
             * np.diag(prev_layer_act_vals)
+        )
+
+    def calc_dC_over_db(self,
+                        self_dC_over_da: NDArray,
+                        self_z_vals: NDArray) -> NDArray:
+        return (
+            self_dC_over_da
+            @ self.relu_deriv(self_z_vals)
         )
 
     def calc_dC_over_da(self,
