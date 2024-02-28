@@ -73,10 +73,10 @@ class OtherLayer(LayerABC):
         )
 
     def calc_bias_gradient(self,
-                           self_dC_over_da: NDArray,
+                           self_act_val_gradient: NDArray,
                            self_z_vals: NDArray) -> NDArray:
         return (
-            self_dC_over_da
+            self_act_val_gradient
             * self.relu_deriv(self_z_vals)
         )
 
