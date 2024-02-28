@@ -4,17 +4,23 @@ import numpy as np
 
 class Gradients:
     def __init__(self,
-                 weight_gradient=np.empty((0, 0)),
-                 bias_gradient=np.empty((0, 0))) -> None:
-        self.weight_gradient = weight_gradient
-        self.bias_gradient = bias_gradient
+                 weight=np.empty((0, 0)),
+                 bias=np.empty((0, 0)),
+                 act_vals=np.empty((0, 0))) -> None:
+        self.weight = weight
+        self.bias = bias
+        self.act_vals = act_vals
 
     def __add__(self, layer_gradients: Gradients):
-        self.weight_gradient = np.vstack(
-            self.weight_gradient,
-            layer_gradients.weight_gradient
+        self.weight = np.vstack(
+            self.weight,
+            layer_gradients.weight
         )
-        self.bias_gradient = np.vstack(
-            self.bias_gradient,
-            layer_gradients.bias_gradient
+        self.bias = np.vstack(
+            self.bias,
+            layer_gradients.bias
+        )
+        self.bias = np.vstack(
+            self.bias,
+            layer_gradients.bias
         )

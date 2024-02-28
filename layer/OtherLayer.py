@@ -42,20 +42,33 @@ class OtherLayer(LayerABC):
     def relu_deriv(self, x: float) -> float:
         return 1 if x > 0 else 0
 
-    # def calc_gradients(self,
-    #                     self_z_vals: NDArray,
-    #                     prev_layer_act_vals: NDArray,
-    #                     self_dC_over_da: NDArray,
-    #                     self_act_vals: NDArray,
-    #                     next_layer_z_vals: NDArray,
-    #                     next_layer_dC_over_da: NDArray,
-    #                     expected_output: NDArray) -> Gradients:
-    #     return Gradients(
-    #         weight_gradient=self.calc_weight_gradient(self_z_vals,
-    #                                              prev_layer_act_vals,
-    #                                              self_dC_over_da),
-    #         bias_gradient=self.cal
-    #     )
+    def calc_gradients(self,
+                       self_z_vals: NDArray,
+                       prev_layer_act_vals: NDArray,
+                       self_act_val_gradient: NDArray,
+                       self_act_val_gradient: NDArray,
+                       self_z_vals: NDArray,
+                       self_act_vals: NDArray,
+                       next_layer_z_vals: NDArray,
+                       next_layer_act_val_gradient: NDArray,
+                       expected_output: NDArray) -> Gradients:
+        act_val_gradient: NDArray = self.calc_act_val_gradient(
+            self_act_vals,
+            next_layer_z_vals,
+            next_layer_act_val_gradient,
+            expected_output
+        )
+        return Gradients(
+            weight=self.calc_weight_gradient(
+                self_z_vals,
+                prev_layer_act_vals,
+                self_act_val_gradient
+            ),
+            bias=self.calc_bias_gradient(
+                self_act_val_gradient,
+                self_z_vals
+            )
+        )
 
     def calc_weight_gradient(self,
                              self_z_vals: NDArray,
@@ -68,8 +81,8 @@ class OtherLayer(LayerABC):
         k = len(prev_layer_act_vals)
         return (
             self.relu_deriv(np.diag(self_z_vals))
-            * (np.diag(self_act_val_gradient) * np.ones((j, k)))
-            * np.diag(prev_layer_act_vals)
+            @ (np.diag(self_act_val_gradient) @ np.ones((j, k)))
+            @ np.diag(prev_layer_act_vals)
         )
 
     def calc_bias_gradient(self,
