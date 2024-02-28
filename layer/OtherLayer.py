@@ -33,9 +33,37 @@ class OtherLayer(LayerABC):
         for i, node in enumerate(self._nodes):
             biases[i, 0] = node.bias
         return biases
-    
+
     def calc_gradients(self, self_act_vals: NDArray):
-        
-    def s
-        
-    def calc_dC_over_dw(self, self_act_vals: NDArray)
+        pass
+
+    def relu(self, x: float) -> float:
+        return x if x > 0 else 0
+
+    def relu_deriv(self, x: float) -> float:
+        return 1 if x > 0 else 0
+
+    def calc_dC_over_dw(self, self_act_vals: NDArray,
+                        next_layer_act_vals: NDArray) -> NDArray:
+        """
+        Calculates dC / dw for all weights in the layer
+        """
+        return (
+            self.calc_dC_over_da(next_layer_act_vals)
+            * self.relu_deriv()
+            * self_act_vals
+        )
+
+    def calc_dC_over_da(self, self_act_vals: NDArray,
+                        next_layer_node_count: int,
+                        next_layer_z_vals: NDArray,
+                        expected_output: NDArray,
+                        next_layer_dC_over_da: NDArray) -> NDArray:
+        if self._is_last:
+            return 2 * (self_act_vals - expected_output)
+        else:
+            return (
+                np.transpose(next_layer_dC_over_da)
+                * self.relu_deriv(next_layer_z_vals)
+                * self_act_vals
+            )
