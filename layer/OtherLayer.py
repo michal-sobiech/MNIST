@@ -77,7 +77,7 @@ class OtherLayer(LayerABC):
                            self_z_vals: NDArray) -> NDArray:
         return (
             self_dC_over_da
-            @ self.relu_deriv(self_z_vals)
+            * self.relu_deriv(self_z_vals)
         )
 
     def calc_act_val_gradient(self,
@@ -90,6 +90,6 @@ class OtherLayer(LayerABC):
         else:
             return (
                 np.transpose(next_layer_dC_over_da)
-                * self.relu_deriv(next_layer_z_vals)
-                * self_act_vals
+                @ self.relu_deriv(next_layer_z_vals)
+                @ self_act_vals
             )
