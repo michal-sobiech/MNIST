@@ -83,13 +83,13 @@ class OtherLayer(LayerABC):
     def calc_act_val_gradient(self,
                               self_act_vals: NDArray,
                               next_layer_z_vals: NDArray,
-                              next_layer_dC_over_da: NDArray,
+                              next_layer_act_val_gradient: NDArray,
                               expected_output: NDArray) -> NDArray:
         if self._is_last:
             return 2 * (self_act_vals - expected_output)
         else:
             return (
-                np.transpose(next_layer_dC_over_da)
+                np.transpose(next_layer_act_val_gradient)
                 @ self.relu_deriv(next_layer_z_vals)
                 @ self_act_vals
             )
