@@ -75,6 +75,9 @@ class OtherLayer(LayerABC):
     def calc_bias_gradient(self,
                            self_act_val_gradient: NDArray,
                            self_z_vals: NDArray) -> NDArray:
+        """
+        Calculates dC / db for all weights in the layer
+        """
         return (
             self_act_val_gradient
             * self.relu_deriv(self_z_vals)
@@ -85,6 +88,9 @@ class OtherLayer(LayerABC):
                               next_layer_z_vals: NDArray,
                               next_layer_act_val_gradient: NDArray,
                               expected_output: NDArray) -> NDArray:
+        """
+        Calculates dC / da for all weights in the layer
+        """
         if self._is_last:
             return 2 * (self_act_vals - expected_output)
         else:
